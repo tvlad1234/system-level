@@ -352,17 +352,23 @@ CoraZ7S Environment Exploration
 
 2. Write the following command to discover the available IIO devices:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: analog
+   :group: pi-workstation
 
-   iio_info -s
+   $iio_info -s
 
 Look for the IP address corresponding to *workshop-cora* machine. You will need
 it for the next steps. To find it easier you can search by the hostname of the
 carrier:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: analog
+   :group: pi-workstation
 
-   iio_info -s | grep workshop-cora
+   $iio_info -s | grep workshop-cora
 
 The output should look like this:
 
@@ -373,9 +379,12 @@ The output should look like this:
 3. Write the following command to connect via SSH to the CoraZ7S (replace the
    IP address in the command with the address of your board):
 
-.. code-block:: bash
-
-   ssh -X root@169.254.35.68
+.. shell::
+   :show-user:
+   :user: analog
+   :group: pi-workstation
+   
+   $ssh -X root@169.254.35.68
 
 The password is ``analog``.
 
@@ -383,10 +392,9 @@ At this point you should see this in your terminal:
 
 .. code-block:: text
 
-   analog@workshops:~$ ssh root@169.254.35.68
+   analog@pi-workstation:~$ ssh root@169.254.35.68
    root@169.254.35.68's password:
-   Linux analog 6.1.70-35308-ge2e62cc28c80 #1525 SMP Fri Aug 15 07:04:44 EEST 2025
-   armhf
+   Linux workshop-cora 6.12.77-g4b2e305bc496 #1 SMP PREEMPT Wed Jul 15 15:52:08 UTC 2026 armv7l
 
    The programs included with the Debian GNU/Linux system are free software;
    the exact distribution terms for each program are described in the
@@ -394,29 +402,110 @@ At this point you should see this in your terminal:
 
    Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
    permitted by applicable law.
-   Last login: Fri Oct 24 19:11:04 2025 from 169.254.35.68
+   Last login: Thu Sep 10 07:25:12 2026 from  169.254.35.68
    root@workshop-cora:~#
 
 You are now connected to the CoraZ7S. Every command you run from this point
 forward will be executed on the CoraZ7S, not your workstation.
 
-Example 1: Turn on a LED and make it blink with a heartbeat rhythm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4. Provision your working copy of the workshop exercises:
 
-1. Move to the LEDs directory using the command below:
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-.. code-block:: bash
+   $datax-workshops-embedded-linux-setup
 
-   cd /sys/class/leds
+You should see output similar to this:
 
-Here you can see 6 directories corresponding to the 3 colors of each RGB LED on
-the board:
+.. code-block:: text
 
-.. code-block:: bash
+   '/usr/share/datax-workshops-embedded-linux/exercises/./game.py' -> '/root/datax-workshops/embedded-linux/./game.py'
+   '/usr/share/datax-workshops-embedded-linux/exercises/./leds.sh' -> '/root/datax-workshops/embedded-linux/./leds.sh'
 
-   ls
+   Done. Your workshop files are in: /root/datax-workshops/embedded-linux
+   To change your current working path run:
+       cd /root/datax-workshops/embedded-linux
 
-Each one of them contains the following attributes:
+   See the workshop guide:
+   https://analogdevicesinc.github.io/documentation/learning/workshops_embedded_linux/index.html
+
+5. Move into the workspace folder created above:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $cd /root/datax-workshops/embedded-linux
+
+Example 1: Turn on LEDs and set colors manually through PWM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Move to the PWM chip directory using the command below:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $cd /sys/class/pwm/pwmchip0
+
+2. List the contents of the directory:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $ls
+
+You will see ``export`` and ``unexport`` files (used to make a PWM channel
+available or release it) and ``npwm``, which reports how many channels the
+chip provides. Each RGB LED on the board is driven by three of these PWM
+channels, one per color:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Channel
+     - LED / color
+   * - ``pwm0``
+     - LED0 red
+   * - ``pwm1``
+     - LED0 green
+   * - ``pwm2``
+     - LED0 blue
+   * - ``pwm3``
+     - LED1 red
+   * - ``pwm4``
+     - LED1 green
+   * - ``pwm5``
+     - LED1 blue
+
+3. Export channel 0 (LED0 red) so it becomes accessible, then move into its
+   folder:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $echo 0 >> export
+   $cd pwm0
+
+4. List the contents of the folder:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $ls
+
+This folder contains the following attributes:
 
 .. list-table::
    :header-rows: 1
@@ -424,168 +513,162 @@ Each one of them contains the following attributes:
 
    * - Attribute
      - Description
-   * - ``brightness``
-     - Stores the status of the LED (possible values: 0, 1)
-   * - ``trigger``
-     - Changes the status of the LED
-   * - ``max_brightness``
-     - Indicates the max brightness value that can be written to brightness
-   * - ``device``
-     - A symbolic link pointing to the parent device of the LED
+   * - ``period``
+     - The total period of the PWM signal, in nanoseconds
+   * - ``duty_cycle``
+     - The active (high) time within each period, in nanoseconds; must be
+       less than or equal to ``period``
+   * - ``enable``
+     - Starts (1) or stops (0) the PWM signal output
+   * - ``polarity``
+     - Configures the signal as ``normal`` or ``inversed``
 
-They may contain other folders and files, depending on the settings.
+The LED is fully on when ``duty_cycle`` equals ``period`` (signal high for the
+whole period) and fully off when ``duty_cycle`` is 0. A value in between would
+dim the LED, but for this exercise we will only use fully on or fully off to
+combine colors.
 
-The important features of the ``trigger`` function are:
+5. A channel keeps whatever ``duty_cycle`` it powered up with until you set
+   one yourself, so before doing anything else, export every remaining
+   channel and bring all six to a known, fully-off state: set their period,
+   set ``duty_cycle`` to 0, and only then enable them. If you enable a channel
+   before its ``duty_cycle`` is set to 0, its LED can stay lit:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $cd /sys/class/pwm/pwmchip0
+   $echo 1 >> export
+   $echo 2 >> export
+   $echo 3 >> export
+   $echo 4 >> export
+   $echo 5 >> export
+   $echo 1000000 >> pwm0/period
+   $echo 1000000 >> pwm1/period
+   $echo 1000000 >> pwm2/period
+   $echo 1000000 >> pwm3/period
+   $echo 1000000 >> pwm4/period
+   $echo 1000000 >> pwm5/period
+   $echo 0 >> pwm0/duty_cycle
+   $echo 0 >> pwm1/duty_cycle
+   $echo 0 >> pwm2/duty_cycle
+   $echo 0 >> pwm3/duty_cycle
+   $echo 0 >> pwm4/duty_cycle
+   $echo 0 >> pwm5/duty_cycle
+   $echo 1 >> pwm0/enable
+   $echo 1 >> pwm1/enable
+   $echo 1 >> pwm2/enable
+   $echo 1 >> pwm3/enable
+   $echo 1 >> pwm4/enable
+   $echo 1 >> pwm5/enable
+
+All six LEDs should now be off. From this point, turning a color on or off is
+just a matter of setting that channel's ``duty_cycle`` back and forth between
+0 and the period. For example, turn LED0 red on and back off:
+
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $echo 1000000 >> pwm0/duty_cycle
+   $echo 0 >> pwm0/duty_cycle
+
+6. A given LED's color is set by driving its red, green, and blue channels
+   fully on or off together:
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 80
+   :widths: 30 70
 
-   * - Trigger
-     - Description
-   * - ``none``
-     - The default state where no specific trigger is set for the LED
-   * - ``timer``
-     - This trigger causes the LED to blink at a specified rate set in
-       ``delay_on`` and ``delay_off`` attributes
-   * - ``oneshot``
-     - Turns the LED on for a short period and then turns it off; the period
-       is set in ``oneshot``
-   * - ``heartbeat``
-     - Causes the LED to blink in a pattern that mimics a heartbeat
-   * - ``cpu``
-     - Links the LED activity to CPU activity
-
-The ``delay_on`` and ``delay_off`` attributes are active when the timer
-features are enabled, and they will appear in the LED folder.
-
-2. Turn on the RED color of the first LED by setting the corresponding
-   ``brightness`` to 1:
-
-.. code-block:: bash
-
-   echo 1 >> led0_red/brightness
-
-3. Make the red color of the first LED blink in heartbeat mode:
-
-.. code-block:: bash
-
-   echo heartbeat >> led0_red/trigger
+   * - Color
+     - Channels driven fully on
+   * - Red
+     - red
+   * - Green
+     - green
+   * - Blue
+     - blue
+   * - Yellow
+     - red + green
+   * - Cyan
+     - green + blue
+   * - Purple
+     - red + blue
+   * - White
+     - red + green + blue
 
 **Challenge**
 
-Make the first LED light continuously purple and the second LED light green for
-1000 ms OFF and for 500 ms ON.
+Make the first LED light continuously purple and the second LED light
+continuously cyan.
 
 **Hint**
 
-For the first LED combine two colors to get purple and for the second LED use
-the *timer* trigger and set ``delay_on`` and ``delay_off``.
+For the first LED, drive its red and blue channels fully on. For the second
+LED, drive its green and blue channels fully on.
 
 **Challenge Solution**
 
-For led0 (purple = red + blue):
+With all six channels already exported, configured, and enabled from step 5,
+turning on a color is just a matter of raising the right channels' duty
+cycles:
 
-.. code-block:: bash
+For led0 (purple = red + blue, channels ``pwm0`` and ``pwm2``):
 
-   echo none >> led0_red/trigger
-   echo 1 >> led0_red/brightness
-   echo 1 >> led0_blue/brightness
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-For led1 (green, blinking):
+   $echo 1000000 >> pwm0/duty_cycle
+   $echo 1000000 >> pwm2/duty_cycle
 
-.. code-block:: bash
+For led1 (cyan = green + blue, channels ``pwm4`` and ``pwm5``):
 
-   echo 1 >> led1_green/brightness
-   echo timer >> led1_green/trigger
-   echo 1000 >> led1_green/delay_off
-   echo 500 >> led1_green/delay_on
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
+
+   $echo 1000000 >> pwm4/duty_cycle
+   $echo 1000000 >> pwm5/duty_cycle
 
 Example 2: Run a script
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 This example demonstrates how to execute a series of commands within a
-script, rather than running each command individually in the terminal. You will
-also learn how any Linux script can be turned into a bash command.
+script, rather than running each command individually in the terminal, to play
+a color crossfade animation across both RGB LEDs through the same PWM
+interface. You will also learn how any Linux script can be turned into a bash
+command.
 
 1. Run the script:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   bash /leds.sh
+   $bash leds.sh
+
+The animation takes about 20 seconds to complete on its own. If you want to
+stop it early, press :kbd:`Ctrl+Z` to suspend it.
 
 2. Now make the script available to be run from anywhere in the file system and
    run it again:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   chmod +x /leds.sh
-   mv /leds.sh /usr/local/bin
-   leds.sh
+   $mv leds.sh /usr/local/bin
+   $leds.sh
 
-Example 3: Build a kernel object for ADXL355 driver
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This example demonstrates how to create a kernel object for an existing
-driver and load it in such a way that the system recognizes it as part of the
-kernel.
-
-By running the command ``iio_info`` in the terminal you will see in the output
-that there is no *adxl355* device found.
-
-**Steps**
-
-1. Move to the *adxl355* folder:
-
-.. code-block:: bash
-
-   cd /adxl355
-
-2. Create a Makefile:
-
-.. code-block:: bash
-
-   touch Makefile
-
-3. Open the Makefile with a file editor of your choice (nano, Vim):
-
-.. code-block:: bash
-
-   nano Makefile
-
-4. Write to the Makefile the following lines and then save and exit the file
-   with CTRL+S, then CTRL+X (pay attention to the indentation):
-
-.. code-block:: makefile
-
-   obj-m := adxl355_spi.o
-
-   all:
-   	make -C /usr/src/linux-headers-6.1.0/ M=$(shell pwd) modules
-
-   clean:
-   	make -C /usr/src/linux-headers-6.1.0/ M=$(shell pwd) modules
-
-.. note::
-
-   The indentation before ``make`` commands must be a tab character, not
-   spaces.
-
-5. Run *make* to build the kernel object:
-
-.. code-block:: bash
-
-   make
-
-6. Load the new kernel object:
-
-.. code-block:: bash
-
-   insmod adxl355_spi.ko
-
-7. Check again with ``iio_info`` to see readings from the accelerometer.
-
-Example 4: Compute the temperature value from sysfs
+Example 3: Compute the temperature value from sysfs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The task is allowing you to read the content of attribute files and compute the
@@ -601,32 +684,44 @@ The temperature is computed using the following formula:
 
 1. Move to the iio:device folder:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   cd /sys/bus/iio/devices/iio:device1
+   $cd /sys/bus/iio/devices/iio:device1
 
 2. Here you can see all the attributes of the adxl355:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   ls
+   $ls
 
 3. Put temperature values in variables:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   SCALE=$(cat in_temp_scale)
-   OFFSET=$(cat in_temp_offset)
-   RAW=$(cat in_temp_raw)
+   $SCALE=$(cat in_temp_scale)
+   $OFFSET=$(cat in_temp_offset)
+   $RAW=$(cat in_temp_raw)
 
 4. Compute the temperature and display it in the terminal (keep in mind that it
    will be in millidegrees Celsius):
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   echo "($RAW + $OFFSET) * $SCALE" | bc
+   $echo "($RAW + $OFFSET) * $SCALE" | bc
 
-Example 5: Play a Snake game with the accelerometer
+Example 4: Play a Snake game with the accelerometer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using the accelerometer module, you will have the chance to play a little oldie
@@ -634,18 +729,24 @@ but goldie SNAKE game.
 
 1. Run the game controls in the background:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   python3 /game.py &
+   $python3 /root/datax-workshops/embedded-linux/game.py &
 
 2. Start the Snake game:
 
-.. code-block:: bash
+.. shell::
+   :show-user:
+   :user: root
+   :group: workshop-cora
 
-   /usr/games/nsnake
+   $/usr/games/nsnake
 
-Move the accelerometer board around and observe the output. Be careful not to
-disconnect the wires.
+Tilt the accelerometer board around and observe the output. Be careful not to
+disconnect the USB and Ethernet cables
 
 Have fun!
 
