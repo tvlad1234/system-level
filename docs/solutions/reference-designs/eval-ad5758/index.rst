@@ -66,7 +66,7 @@ its own dedicated section.
    prerequisites
    quickstart/index
    spi
-   Demonstration_Platform/index
+   demonstration-platform/index
 
 Recommendations
 -------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ Table of contents
 
         #. Linux support:
 
-           - :git-linux:`AD5758 Linux Driver <drivers/iio/dac/ad5758>`
+           - :git-linux:`AD5758 Linux Driver <drivers/iio/dac/ad5758.c>`
            - :external+linux:doc:`AD5758 Linux IIO DAC driver Documentation
              <drivers/iio-dac/ad5758>`
 

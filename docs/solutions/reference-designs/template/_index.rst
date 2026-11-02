@@ -9,7 +9,7 @@ EVALUATION BOARD
 
 .. Add a picture here of the chip
 
-.. image:: ../images/ad9081.webp
+.. image:: ../eval-ad9081/images/ad9081.webp
    :align: left
    :width: 150
 
@@ -34,7 +34,7 @@ Applications:
 - application 2
 
 .. Add a picture here of the evaluation board
-.. image:: ../images/eval_ad9081.png
+.. image:: ../eval-ad9081/images/eval_ad9081.png
    :align: center
    :width: 500
 
@@ -102,13 +102,13 @@ Table of contents
 
         #. About the device tree:
 
-           - :dokuwiki:`Customizing the device tree on the target <resources/eval/user-guides/ad-fmcomms2-ebz/software/linux/zynq_tips_tricks>`
+           - :ref:`Customizing the device tree on the target <linux-kernel zynq-tips-tricks>`
 
         #. About the JESD204 utilities:
 
            - :external+linux:ref:`jesd204-fsm-framework`
-           - :dokuwiki:`JESD204 status utility <resources/tools-software/linux-software/jesd_status>`
-           - :dokuwiki:`JESD204 Eye Scan <resources/tools-software/linux-software/jesd_eye_scan>`
+           - :ref:`JESD204 status utility <software jesd-status>`
+           - :ref:`JESD204 Eye Scan <software jesd-eye-scan>`
            - :external+hdl:ref:`jesd204`
 
      #. :external+hdl:ref:`HDL reference design <template_project>` which you must use in your FPGA.
@@ -121,7 +121,7 @@ Block diagram
 -------------------------------------------------------------------------------
 
 .. Add here the block diagram of the chip
-.. image:: ../images/ad9081_block_diagram.png
+.. image:: ../eval-ad9081/images/ad9081_block_diagram.png
    :align: center
    :width: 800
 

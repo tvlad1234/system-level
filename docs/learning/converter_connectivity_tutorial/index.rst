@@ -91,7 +91,7 @@ Representative systems
 We are intentionally starting with an extremely simple example. But once you
 understand how to communicate with an LM74, ADXL345, or ADXL355, you're well
 over the initial learning curve to understanding much more complicated
-systems. The :dokuwiki:`ADALM-Pluto </university/tools/pluto>` is a great example -
+systems. The :ref:`ADALM-Pluto <pluto>` is a great example -
 it contains an AD9363 RF Agile Transcieiver, Zynq SoC FPGA, Memory, USB interface,
 and much more. Even the simplified block diagram is pretty daunting:
 
@@ -368,9 +368,9 @@ require a corresponding modification to the overlay.)
 For reference, here are the overlay source files for the three devices in this
 tutorial. These are in the Linux rpi-6.12.y branch:
 
-- `LM75 Device Tree Overlay <https://github.com/analogdevicesinc/linux/blob/rpi-6.12.y/arch/arm/boot/dts/overlays/rpi-lm75-overlay.dts>`__
-- `ADXL345 Device Tree Overlay <https://github.com/analogdevicesinc/linux/blob/rpi-6.12.y/arch/arm/boot/dts/overlays/rpi-adxl345-overlay.dts>`__
-- `ADXL355 Device Tree Overlay <https://github.com/analogdevicesinc/linux/blob/rpi-6.12.y/arch/arm/boot/dts/overlays/rpi-adxl355-overlay.dts>`__
+:git-linux:`LM75 Device Tree Overlay <rpi-6.12.y:arch/arm/boot/dts/overlays/rpi-lm75-overlay.dts>`
+- :git-linux:`ADXL345 Device Tree Overlay <rpi-6.12.y:arch/arm/boot/dts/overlays/rpi-adxl345-overlay.dts>`
+- :git-linux:`ADXL355 Device Tree Overlay <rpi-6.12.y:arch/arm/boot/dts/overlays/rpi-adxl355-overlay.dts>`
 
 .. NOTE::
 
@@ -418,7 +418,7 @@ setting the onboard LED to the "heartbeat" function, this makes it easy to see
 if the board is running or shut down, even if you don't have a display
 connected. The other line turns GPIO21 into a hardware shutdown function, also
 very useful if you are operating the board without a displayg
-| If you want to make it easy to revert back to some other overlay, comment out
+If you want to make it easy to revert back to some other overlay, comment out
 the original line with a pound sign / hashtag:
 
 ::

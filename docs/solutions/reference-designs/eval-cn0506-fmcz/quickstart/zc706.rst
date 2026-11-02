@@ -124,8 +124,7 @@ Creating the setup
    your serial connection from your PC. You should see some boot messages like
    these ones:
 
-   .. admonition:: Linux BOOT messages
-      :collapsible: closed
+   .. collapsible:: Complete boot log
 
       ::
 
@@ -904,11 +903,11 @@ Registration
 
    Receive software update notifications, documentation updates, view the 
    latest videos, and more when you register your hardware. 
-   `Register <https://my.analog.com/en/app/registration/hardware/EVAL-CN0506-FMCZ?&v=RevB>`__ 
+   `Register <https://my.analog.com/en/app/registration/hardware/>`__ 
    to receive all these great benefits and more!
 
 Need Help?
 -------------------------------------------------------------------------------
 
-* :ez:`Analog Devices Circuit from the Lab Help Forum <circuits_from_the_lab>`
-* :ez:`Add a question! <circuits_from_the_lab/f/q-a/p/addpost>`
+* :ez:`Analog Devices Engineer Zone Forum <reference-designs>`
+* :ez:`Add a question! <reference-designs/f/q-a/p/addpost>`

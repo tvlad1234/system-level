@@ -32,12 +32,19 @@ Plugin
 ------
 
 The AD9084 plugin works with the IIO Oscilloscope. You should always use the
-latest version if possible. Changing any field will immediately write changes
-which have been made to the AD9084 settings to the hardware, and then read it
-back to make sure the setting is valid. If you want to set something that the GUI
-changes to a different number, that either means that GUI is rounding (sorry),
-or the hardware (either the AD9084 or the FPGA fabric) does not support
-that mode/precision.
+latest version if possible.
+
+.. note::
+
+   After connecting to the AD9084 with the IIO Oscilloscope, first press the
+   Refresh button to load the current device settings on the screen. Only then
+   you should try to change any setting, if necessary.
+
+Changing any field will immediately write changes which have been made to the
+AD9084 settings to the hardware, and then read it back to make sure the setting
+is valid. If you want to set something that the GUI changes to a different number,
+that either means that GUI is rounding (sorry), or the hardware (either the AD9084
+or the FPGA fabric) does not support that mode/precision.
 
 If you want to play with /sys/bus/iio/devices/…. and manipulate the devices behind
 the back of the GUI, it's still possible to see the settings by clicking the
@@ -151,7 +158,7 @@ a click on the Load button is required.
    - There are two types of files than can be loaded: .txt or .mat.
      The IIO-Oscilloscope comes with several data files that can be used.
      If you want to create your own data files please take a look at the
-     :dokuwiki:`Basic IQ Data Files <resources/eval/user-guides/ad-fmcomms2-ebz/software/basic_iq_datafiles>`
+     :ref:`Basic IQ Data Files <fmcomms2 common basic-iq-datafiles>`
      documentation first.
    - Due to hardware limitation only specific combinations of enabled channels are possible.
      You can enable a total of 1, 2, 4, etc. channels. If 1 channel is enabled then it can be

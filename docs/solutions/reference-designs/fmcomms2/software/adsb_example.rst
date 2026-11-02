@@ -3,8 +3,7 @@
 ADS-B Airplane Tracking Example (Obsolete)
 ===============================================================================
 
-`Automatic dependent surveillance – broadcast
-<https://en.wikipedia.org/wiki/Automatic_dependent_surveillance_%E2%80%93_broadcast>`__
+`Automatic dependent surveillance – broadcast <https://en.wikipedia.org/wiki/Automatic_Dependent_Surveillance%E2%80%93Broadcast>`__
 (ADS-B) is a cooperative surveillance technology in which an aircraft determines
 its position via satellite navigation and periodically broadcasts it, enabling
 it to be tracked. The transponder transmission has the following properties:
@@ -23,8 +22,7 @@ In this section, we will show an airplane tracking example, where the ADS-B
 signal is captured by FMCOMMS3 and then streamed from target to Simulink or
 MATLAB via the libiio interface. Consequently, the captured signal is
 demodulated by the receiver algorithm based upon an existing MATLAB example
-:mw:`Tracking Airplanes Using RTL-SDR Radio with MATLAB
-<help/supportpkg/rtlsdrradio/examples/airplane-tracking-using-ads-b-signals.html>`,
+:mw:`Tracking Airplanes Using RTL-SDR Radio with MATLAB <help/comm/ug/airplane-tracking-using-ads-b-signals.html>`,
 and all the airplane information is displayed in a table.
 
 Requirements
@@ -74,13 +72,13 @@ MATLAB
 
 The MATLAB example can be found here:
 
-- `ADS-B Airplane Tracking Example
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/ADSB_MATLAB>`__
+- :git-MathWorks_tools:`ADS-B Airplane Tracking Example
+  <hil_models/ADSB_MATLAB>`
 
 In this MATLAB example, we combine the data capture process and receiver
 algorithm, so you only need to run one script:
-`ad9361_ModeS.m
-<https://github.com/analogdevicesinc/MathWorks_tools/blob/master/hil_models/ADSB_MATLAB/ad9361_ModeS.m>`__.
+:git-MathWorks_tools:`ad9361_ModeS.m
+<hil_models/ADSB_MATLAB/ad9361_ModeS.m>`.
 
 This function mainly consists of three parts:
 
@@ -186,14 +184,14 @@ Simulink
 
 The model using Simulink libiio can be found here:
 
-- `ADS-B Airplane Tracking Example
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/ADSB_Simulink_libiio>`__
+- :git-MathWorks_tools:`ADS-B Airplane Tracking Example
+  <hil_models/ADSB_Simulink_libiio>`
 
 This Simulink model is based upon an existing Simulink example provided by
 MathWorks:
 
-- `Original MathWorks Example
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/ADSB_Simulink>`__
+- :git-MathWorks_tools:`Original MathWorks Example
+  <hil_models/ADSB_Simulink>`
 
 The detector and decoding piece comes directly from that model, and we add the
 Simulink IIO System object to conduct the signal reception and hardware in the
@@ -258,8 +256,7 @@ Support
 -------------------------------------------------------------------------------
 
 If you have any questions about FMCOMMS3 / AD9361 or libiio system object,
-please ask on the
-`EngineerZone <https://ez.analog.com/community/linux-device-drivers/microcontroller-no-os-drivers>`__.
+please ask on the :ez:`EngineerZone </microcontroller-no-os-drivers>`.
 
 If you have any questions about ADS-B receiver algorithm, please contact
 :mw:`MathWorks <support/>`.

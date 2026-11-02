@@ -14,14 +14,14 @@ jobs:
     - uses: analogdevicesinc/doctools/checkout@action
     - name: Install pip packages
       run: |
-        python3 -m venv venv
-        source ./venv/bin/activate
+        python3 -m venv ../venv
+        source ../venv/bin/activate
         python3 -m ensurepip
         pip3 install -r docs/requirements.txt --upgrade
 
     - name: Build doc
       run: |
-        source ./venv/bin/activate
+        source ../venv/bin/activate
         source .github/scripts/sphinx-build.sh
 
         export GIT_LFS_TO_LINKS="true"
@@ -94,6 +94,13 @@ jobs:
 
         check_vale vale-spelling.ini
         check_vale vale-enforcement.ini
+
+    - name: Check disallowed RST directives
+      if: ${{ !cancelled() }}
+      run: |
+        mapfile -t files < "$RUNNER_TEMP/changed-rst.txt"
+        (( ${#files[@]} )) || exit 0
+        python3 .github/scripts/rst-directives.py "${files[@]}"
 
     - name: Check git lfs
       if: ${{ !cancelled() }}

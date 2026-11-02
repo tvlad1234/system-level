@@ -39,22 +39,22 @@ Example Files
      - MATLAB file
      - 7.68MSPS
      - Created via
-       :dokuwiki:`lte_example <resources/tools-software/linux-software/libiio/clients/lte_example>`
+       :ref:`lte_example <fmcomms2 software lte-example>`
    * - LTE10.mat
      - MATLAB file
      - 15.36MSPS
      - Created via
-       :dokuwiki:`lte_example <resources/tools-software/linux-software/libiio/clients/lte_example>`
+       :ref:`lte_example <fmcomms2 software lte-example>`
    * - LTE15.mat
      - MATLAB file
      - 23.04MSPS
      - Created via
-       :dokuwiki:`lte_example <resources/tools-software/linux-software/libiio/clients/lte_example>`
+       :ref:`lte_example <fmcomms2 software lte-example>`
    * - LTE20.mat
      - MATLAB file
      - 30.72MSPS
      - Created via
-       :dokuwiki:`lte_example <resources/tools-software/linux-software/libiio/clients/lte_example>`
+       :ref:`lte_example <fmcomms2 software lte-example>`
    * - sinewave_0.3.mat
      - MATLAB file
      - any
@@ -98,7 +98,7 @@ Example Files
    receiver design. (this would include root raised cosine decimator,
    equalization, frequency compensation, retiming, etc. and is best looked at
    by a MathWorks example
-   :mw:`here <help/comm/examples/hdl-optimized-qpsk-receiver-with-captured-data.html>`.
+   :mw:`here <help/wireless-hdl/ug/qpsk-transmitter-receiver.html>`.
    Since there is no default receiver in the default HDL design that ADI
    provides - looking at things with the osc application - you will not see good
    results. This is expected, and normal.

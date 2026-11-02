@@ -6,8 +6,7 @@ ADS-B Airplane Tracking Tutorial (Obsolete)
 .. warning::
 
    This model is considered deprecated. See updated model here:
-   :mw:`HW/SW Co-Design Implementation of ADS-B Receiver Using Analog Devices AD9361/AD9364
-   <help/supportpkg/xilinxzynqbasedradio/ug/hw-sw-co-design-implementation-of-ads-b-transmitter-receiver-using-analog-devices-ad9361-ad9364.html>`.
+   :mw:`HW/SW Co-Design Implementation of ADS-B Receiver Using Analog Devices AD9361/AD9364 <help/soc/ug/hw-sw-co-design-implementation-of-ads-b-transmitter-receiver-using-analog-devices-ad9361-ad9364.html>`.
 
 Overview
 -------------------------------------------------------------------------------
@@ -25,8 +24,7 @@ collaborative solution for SDR, which allows developers of different backgrounds
 single environment, and quickly build and prototype SDR systems while
 establishing and maintaining a deployable path to production. As a real-world
 and interesting example of the process, we will actually build a wireless SDR
-platform that receives and decodes `Automatic Dependent Surveillance-Broadcast
-(ADS-B) <https://en.wikipedia.org/wiki/Automatic_dependent_surveillance_%E2%80%93_broadcast>`__
+platform that receives and decodes `Automatic Dependent Surveillance-Broadcast (ADS-B) <https://en.wikipedia.org/wiki/Automatic_Dependent_Surveillance%E2%80%93Broadcast>`__
 signals to allow us to detect and report the position, altitude, and velocity of
 the commercial aircraft flying in our vicinity.
 
@@ -221,8 +219,8 @@ as a test suite.
 The transmit model **adsbTxGen.m** can be found on the Analog Devices GitHub
 repository:
 
-- `Transmit Model
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/legacy/ADSB_transmitter/adsbTxGen.m>`__
+- :git-MathWorks_tools:`Transmit Model
+  <hil_models/legacy/ADSB_transmitter/adsbTxGen.m>`
 
 The input to this function is the known ADS-B message you would like to
 transmit, and the output is the baseband ADS-B waveform that the receiver can
@@ -243,8 +241,8 @@ Receive Model
 The receiver model **ModeS_Simulink_Decode.mdl** and its associated files can
 be found on the Analog Devices GitHub repository:
 
-- `Receive Model
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/legacy/ADSB_Simulink>`__
+- :git-MathWorks_tools:`Receive Model
+  <hil_models/legacy/ADSB_Simulink>`
 
 The model itself is quite straightforward. It takes the pre-recorded ADS-B
 data, saved in ``data_Yb.mat`` as input, and then decode the message. The subsystem
@@ -331,10 +329,10 @@ onto a Zynq SoC platform, such as
 who are interested in following along with the radio I/O models can find the
 files on the Analog Devices GitHub repository:
 
-- `Radio I/O in MATLAB
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/legacy/ADSB_MATLAB>`__
-- `Radio I/O in Simulink
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/legacy/ADSB_Simulink_libiio>`__
+- :git-MathWorks_tools:`Radio I/O in MATLAB
+  <hil_models/legacy/ADSB_MATLAB>`
+- :git-MathWorks_tools:`Radio I/O in Simulink
+  <hil_models/legacy/ADSB_Simulink_libiio>`
 
 To better understand these models, an introduction to IIO System Object provided
 by ADI can be found
@@ -344,8 +342,8 @@ MATLAB
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To validate the MATLAB ADS-B decoding algorithm operation with real time data
-acquired from the PicoZed SDR platform, a MATLAB script `ad9361_ModeS.m
-<https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/legacy/ADSB_MATLAB/ad9361_ModeS.m>`__
+acquired from the PicoZed SDR platform, a MATLAB script :git-MathWorks_tools:`ad9361_ModeS.m
+<hil_models/legacy/ADSB_MATLAB/ad9361_ModeS.m>`
 has been developed to perform the following operations:
 
 #. Calculate the earth zone according to user input
@@ -608,8 +606,8 @@ According to the guidelines presented in the reference guide, the intermediate
 model **ModeS_FixPt_Pipelined_ADI.slx** and its associated files can be found
 on the Analog Devices GitHub repository:
 
-- `Intermediate Model
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hil_models/legacy/ADSB_Simulink>`__
+- :git-MathWorks_tools:`Intermediate Model
+  <hil_models/legacy/ADSB_Simulink>`
 
 In this model, we converted the data type from floating point to fixed point,
 and we added some pipeline registers as the first step for setting this model
@@ -626,20 +624,16 @@ MathWorks HW/SW Co-Design
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Hardware-Software Co-Design is a standard workflow provided by
-:mw:`MathWorks Communications System Toolbox Support Package for Xilinx
-Zynq-Based Radio <help/supportpkg/xilinxzynqbasedradio/index.html>`. Using
+:mw:`MathWorks Communications System Toolbox Support Package for Xilinx Zynq-Based Radio <help/soc/radio-applications.html>`. Using
 this workflow, you can prototype an algorithm in Simulink and then deploy it
 on the ARM processor and FPGA fabric of the Zynq hardware.
 The hardware-software co-design workflow includes FPGA targeting, HDL IP core
 generation, and the generation of a software interface model for execution on
 the ARM processor. To get started, see
-:mw:`Hardware-Software Co-Design for Zynq SDR Applications
-<help/supportpkg/xilinxzynqbasedradio/ug/installation-for-hardware-software-co-design.html>`.
+:mw:`Hardware-Software Co-Design for Zynq SDR Applications <help/soc/ug/installation-for-hardware-software-co-design.html>`.
 
 The
-:mw:`HW/SW Co-Design Implementation of ADS-B Transmitter/Receiver Using
-Analog Devices AD9361/AD9364
-<help/supportpkg/xilinxzynqbasedradio/examples/hw-sw-co-design-implementation-of-ads-b-transmitter-receiver-using-analog-devices-ad9361-ad9364.html>`
+:mw:`HW/SW Co-Design Implementation of ADS-B Transmitter/Receiver Using Analog Devices AD9361/AD9364 <help/soc/ug/hw-sw-co-design-implementation-of-ads-b-transmitter-receiver-using-analog-devices-ad9361-ad9364.html>`
 is a shipped example in MATLAB from **R2016b**. In this example, the stateflow
 block is removed and replaced with a MATLAB state machine, which means users
 without a stateflow license can use the model.
@@ -734,17 +728,14 @@ Steps to Follow
 
       >> edit zynqRadioHWSWADSBPositionCalcSingle
 
-:mw:`Target an ADS-B Airplane Tracker Using HW/SW Co-Design Workflow
-<help/supportpkg/usrpembeddedseriesradio/examples/target-an-ads-b-airplane-tracker-using-usrp-r-e310-and-hw-sw-co-design-workflow.html>`
+:mw:`Target an ADS-B Airplane Tracker Using HW/SW Co-Design Workflow <help/comm/ug/airplane-tracking-using-ads-b-signals.html.html>`
 is also available on the Ettus E310 SDR platform.
 
 ADI Board Support Package for the HDL Workflow Advisor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ADI Board Support Package (BSP) for the HDL Workflow Advisor, based upon
-the
-:mw:`MathWorks Board and Reference Design Registration System
-<help/hdlcoder/ug/board-and-reference-design-system.html>`, is a collection
+The ADI Board Support Package (BSP) for the HDL Workflow Advisor, based upon the
+:mw:`MathWorks Board and Reference Design Registration System <help/hdlcoder/ug/board-and-reference-design-system.html>`, is a collection
 of board definitions and reference designs that provide to the MathWorks HDL
 Workflow Advisor, which is capable of:
 
@@ -762,8 +753,8 @@ towards ADS-B model.
 
 The board support package can be found at Analog Devices GitHub:
 
-- `Analog Devices Board Support Package
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/hdl_wa_bsp>`__
+- :git-MathWorks_tools:`Analog Devices Board Support Package
+  <hdl_wa_bsp>`
 
 To install the Analog Devices BSP, set the MATLAB current folder to the
 ``/vendor/AnalogDevices`` folder found in the location where the BSP was
@@ -807,8 +798,8 @@ In MATLAB, run the following line in command window:
 
 The ADS-B hardware targeting model can be found at Analog Devices GitHub:
 
-- `ADS-B Hardware Targeting Model
-  <https://github.com/analogdevicesinc/MathWorks_tools/tree/master/targeting_models/ADSB>`__
+- :git-MathWorks_tools:`ADS-B Hardware Targeting Model
+  <targeting_models/ADSB>`
 
 Open model ``ModeS_ADI_Codegen.slx`` in MATLAB.
 
@@ -956,8 +947,8 @@ some pre-captured data and the
 In IIO scope, set the Receive Chain and Transmit Chain according to the
 specifications of ADS-B signals. Then, use ``DAC Buffer Output`` for DDS
 Mode. In the end, select file
-`data_noise.mat
-<https://github.com/analogdevicesinc/MathWorks_tools/blob/2016a/targeting_models/ADSB/data_noise.mat>`__,
+:git-MathWorks_tools:`data_noise.mat
+<2016a:targeting_models/ADSB/data_noise.mat>`,
 which includes the pre-captured data and click Load. You will see the message
 saying "Waveform loaded successfully" if your file has been applied to the DAC
 channels you selected.
@@ -1017,7 +1008,7 @@ Use External Mode
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 With
-:mw:`external mode <help/supportpkg/xilinxzynq7000ec/ug/parameter-tuning-with-external-mode-simulation.html>`,
+:mw:`external mode <help/ecoder/armcortexr/ug/parameter-tuning-with-external-mode-simulation.html>`,
 you can log signals and tune parameters while the model is running on the
 target hardware in real-time. When you change parameter values from within
 Simulink, the modified parameter values are communicated to the target
@@ -1115,9 +1106,7 @@ Support
 -------------------------------------------------------------------------------
 
 If you have any questions about PicoZed / AD9361 or ADI BSP workflow, please
-ask on the EngineerZone.
-`ADI Support
-<https://ez.analog.com/community/linux-device-drivers/microcontroller-no-os-drivers>`__
+ask on the :ez:`EngineerZone </microcontroller-no-os-drivers>`.
 
 If you have any questions about ADS-B receiver algorithm or HW/SW Co-Design
 workflow, please contact MathWorks.
